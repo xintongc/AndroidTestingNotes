@@ -1,0 +1,84 @@
+public interface IMathUtils {
+    public int abs(int num); // 求绝对值
+}
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class MockTest {
+
+    public static void main(String[] args) {
+        IMathUtils mathUtils = mock(IMathUtils.class); // 生成mock对象
+
+        when(mathUtils.abs(-1)).thenReturn(1); // 当调用abs(-1)时，返回1
+
+        int abs = mathUtils.abs(-1); // 输出结果 1
+        
+        Assert.assertEquals(abs, 1);// 测试通过
+    }
+}
+
+/////////////////////
+public class Calculater {
+
+    public double divide(int a, int b) {
+        // 检测被除数是否为0
+        if (MathUtils.checkZero(b)) {
+            throw new RuntimeException("dividend is zero");
+        }
+
+        return (double) a / b;
+    }
+}
+
+public class MathUtils {
+    public static boolean checkZero(int num) {
+        return num == 0;
+    }
+}
+
+public static boolean checkZero(int num) {
+    return  num != 0; // bug
+ }
+
+\\\\\\\\\\\\\\\\
+public class Calculater {
+
+    IMathUtils mathUtils;
+    
+    public double divide(int a, int b) {
+        if (mathUtils.checkZero(b)) {
+            throw ...
+        }
+        return (double) a / b;
+    }
+}
+
+public interface IMathUtils {
+    public boolean checkZero(int num);
+}
+////////////////
+
+public static void main(String[] args) {
+    // 生成IMathUtils模拟对象
+    IMathUtils mathUtils = mock(IMathUtils.class);
+
+    when(mathUtils.checkZero(1)).thenReturn(false); // 当num==1时，checkZero(num)返回false
+    when(mathUtils.checkZero(0)).thenReturn(true); // 当num==0时，checkZero(num)返回true
+
+    Calculater calculater = new Calculater(mathUtils);
+
+    assertEquals(calculater.divide(2,1), 2); // 验证 divide(2,1) 结果是2
+
+    try {
+        calculater.divide(2, 0); // 预期抛出错误
+        throw new RuntimeException("no expectant exception"); // 如果divide没抛错，则此处抛错
+    } catch (Exception e) {
+        Assert.assertEquals(e.getMessage(), "dividend is zero"); // 验证错误信息
+    }
+}
+
+作者：键盘男
+链接：https://www.jianshu.com/p/bc99678b1d6e
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
