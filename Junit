@@ -34,3 +34,37 @@ public class CalculaterTest {
         // 测试通过
     }
 }
+
+
+验证方法会抛出某些异常
+有的时候，抛出异常是一个方法正确工作的一部分。比如一个除法函数，当除数是0的时候，它应该抛出异常，告诉外界，传入的被除数是0，示例代码如下：
+
+public class Calculator {
+
+    // Omit testAdd() and testMultiply() for brevity
+
+    public double divide(double divident, double dividor) {
+        if (dividor == 0) throw new IllegalArgumentException("Dividor cannot be 0");
+
+        return divident / dividor;
+    }}
+那么如何测试当传入的除数是0的时候，这个方法应该抛出IllegalArgumentException异常呢？
+在Junit中，可以通过给@Test annotation传入一个expected参数来达到这个目的，如下：
+
+public class CalculatorTest {
+    Calculator mCalculator;
+
+    @Before
+    public void setup() {
+        mCalculator = new Calculator();
+    }
+
+    // Omit testAdd() and testMultiply() for brevity
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test() {
+        mCalculator.divide(4, 0);
+    }
+
+}
+@Test(expected = IllegalArgumentException.class)表示验证这个测试方法将抛出IllegalArgumentException异常，如果没有抛出的话，则测试失败。
