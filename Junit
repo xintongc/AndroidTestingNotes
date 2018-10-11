@@ -68,3 +68,6 @@ public class CalculatorTest {
 
 }
 @Test(expected = IllegalArgumentException.class)表示验证这个测试方法将抛出IllegalArgumentException异常，如果没有抛出的话，则测试失败。
+
+小创作
+http://chriszou.com/2016/04/18/android-unit-testing-junit.html
